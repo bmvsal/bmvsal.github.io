@@ -261,7 +261,7 @@
     <div class="content">
         <div class="question-container">
             <h1 id="mainQuestion">Will You Be My Valentine? 💖</h1>
-            <p class="subtitle" id="subtitle">Click yes and make me the happiest person alive!</p>
+            <p class="subtitle" id="subtitle">Click yes and come to Vienna with me!</p>
             
             <div class="buttons-container" id="buttonsContainer">
                 <button id="yesBtn">
@@ -273,9 +273,25 @@
     </div>
     
     <div class="celebration" id="celebration">
-        <h2>YESSS! 💖✨🎉</h2>
-        <p>You just made me the happiest person alive!</p>
-        <p style="margin-top: 1rem; font-size: clamp(1rem, 3vw, 2rem);">Get ready for an amazing Valentine's Day! 🌹</p>
+    <h2>YESSS! 💖✨🎉</h2>
+
+    <p>You just made me the happiest person alive!</p>
+
+    <!-- IMAGE HERE -->
+    <img 
+    src="images/come.gif"
+    alt="Cute memory"
+    style="
+        margin-top:20px;
+        width:min(320px,80vw);
+        border-radius:20px;
+        box-shadow:0 10px 30px rgba(0,0,0,0.25);
+    "
+    >
+
+    <p style="margin-top: 1rem; font-size: clamp(1rem, 3vw, 2rem);">
+        Get ready for an amazing Valentine's Day! 🌹
+    </p>
     </div>
     
     <script>
@@ -354,7 +370,7 @@
         const prompts = [
             {
                 question: "Will You Be My Valentine? 💖",
-                subtitle: "Click yes and make me the happiest person alive!"
+                subtitle: "Click yes and come to Vienna with me!"
             },
             {
                 question: "I got you roses! 🌹",
@@ -369,15 +385,15 @@
                 subtitle: "I've been planning this for weeks..."
             },
             {
-                question: "Pretty please? 🙏",
+                question: "Pretty please?",
                 subtitle: "I promise to be the best Valentine ever!"
             },
             {
-                question: "What if I sing to you? 🎵",
+                question: "What if I sing to you (in a really good voice)? 🎵",
                 subtitle: "I've been practicing your favorite song!"
             },
             {
-                question: "I'll cook your favorite meal! 🍝",
+                question: "I'll cook your favorite meal (not Knorr noodles)! 🍝",
                 subtitle: "I even watched YouTube tutorials!"
             },
             {
@@ -389,7 +405,7 @@
                 subtitle: "Can you hear it cracking?"
             },
             {
-                question: "Just one more chance? 🥹",
+                question: "I know you clicked No!",
                 subtitle: "I promise you won't regret it!"
             },
             {
@@ -398,11 +414,11 @@
             },
             {
                 question: "I'll watch whatever you want! 🎬",
-                subtitle: "Even those 3-hour rom-coms!"
+                subtitle: "Even Gilmore Girls (1-2 episodes max)!"
             },
             {
                 question: "I made you a playlist! 🎧",
-                subtitle: "17 hours of love songs!"
+                subtitle: "But no Taylor Swift or Camila Cabello"
             },
             {
                 question: "Pretty please with sugar on top? 🍰",
@@ -413,7 +429,7 @@
                 subtitle: "I can see that smile!"
             },
             {
-                question: "I'll let you pick everything! 🍽️",
+                question: "I'll let you pick everything (almost)! 🍽️",
                 subtitle: "Restaurant, movie, dessert - all yours!"
             },
             {
@@ -421,20 +437,20 @@
                 subtitle: "Warm, cozy, perfect cuddles..."
             },
             {
-                question: "I got you a giant teddy bear! 🧸",
-                subtitle: "It's literally bigger than me!"
+                question: "I'll get giant teddy bear! 🧸",
+                subtitle: "Even though you find it useless!"
             },
             {
                 question: "We can take so many cute pics! 📷",
-                subtitle: "Your Instagram will be fire!"
+                subtitle: "Your Snapchat will be fire!"
             },
             {
                 question: "I wrote you a poem! 📝",
                 subtitle: "It rhymes and everything!"
             },
             {
-                question: "We'll be the cutest couple ever! 💑",
-                subtitle: "Everyone will be so jealous!"
+                question: "We'll be a super cute couple! 💑",
+                subtitle: "I know I'm cute!"
             },
             {
                 question: "Unlimited hugs included! 🫂",
@@ -442,7 +458,7 @@
             },
             {
                 question: "I promise to be super romantic! 💐",
-                subtitle: "Like, movie-level romantic!"
+                subtitle: "Like, movie-level romantic (like I'm already not)!"
             },
             {
                 question: "I planned a surprise for you! 🎁",
@@ -450,7 +466,7 @@
             },
             {
                 question: "You're literally my favorite person! ⭐",
-                subtitle: "In the whole universe!"
+                subtitle: "Atleast in Leoben!"
             },
             {
                 question: "I'll make you laugh all day! 😂",
@@ -462,7 +478,7 @@
             },
             {
                 question: "I'll share my fries with you! 🍟",
-                subtitle: "And that's true love right there!"
+                subtitle: "Only if I'm not so hungry!"
             },
             {
                 question: "We could build a blanket fort! 🏰",
@@ -470,7 +486,7 @@
             },
             {
                 question: "You can have all my hoodies! 👕",
-                subtitle: "Every. Single. One."
+                subtitle: "Every. Single. One. (Except the Oxford one)"
             },
             {
                 question: "Breakfast in bed? 🥞",
@@ -482,19 +498,27 @@
             },
             {
                 question: "So many adventures waiting! 🗺️",
-                subtitle: "Let's explore the world together!"
+                subtitle: "Let's explore the world together (or atleast Vienna)!"
             },
             {
                 question: "I'll carry all your shopping bags! 👜",
-                subtitle: "No matter how many stores we visit!"
+                subtitle: "Even your purse. You know idgaf!"
             },
             {
                 question: "We can stargaze together! ✨",
-                subtitle: "I'll make up constellation stories for you!"
+                subtitle: "MAybe some other day, but okay!"
+            },
+            {
+                question: "You’re my favorite notification 💌",
+                subtitle: "The one I always hope to see!"
+            },
+            {
+                question: "You’re my favorite distraction 😌",
+                subtitle: "Let me write my Thesis, Lady!"
             },
             {
                 question: "I'll be your personal photographer! 📸",
-                subtitle: "Unlimited photoshoots, perfect angles guaranteed!"
+                subtitle: "Your insta will have quality pics then, haha!"
             },
             {
                 question: "Think of all the inside jokes! 🤫",
@@ -502,31 +526,27 @@
             },
             {
                 question: "I set phone reminders for everything! 📅",
-                subtitle: "I'll never forget important dates!"
+                subtitle: "But I know you won't wake up that fast!"
             },
             {
                 question: "You deserve the absolute best! 👑",
-                subtitle: "And I'll give you exactly that!"
+                subtitle: "Ohh and I know I am that best. You know too!"
             },
             {
                 question: "I'll serenade you in the rain! 🎤",
                 subtitle: "Super romantic, right?"
             },
             {
-                question: "Sunset walks on the beach! 🌅",
-                subtitle: "Or the park, or anywhere really!"
+                question: "Sunset walks in Vienna! 🌅",
+                subtitle: "A beach is better but I can't invent a beach in Vienna!"
             },
             {
                 question: "I'm learning to bake for you! 🧁",
-                subtitle: "Only two kitchen fires so far!"
+                subtitle: "No kitchen fires so far!"
             },
             {
                 question: "We'll make the best memories! 🌈",
-                subtitle: "Stories to tell our grandkids!"
-            },
-            {
-                question: "I'll be your biggest cheerleader! 📣",
-                subtitle: "Supporting you in everything you do!"
+                subtitle: "Real stories to tell others, unlike the Spar meetup!"
             },
             {
                 question: "Matching couple outfits? 👔",
@@ -535,6 +555,10 @@
             {
                 question: "I'd give you the moon! 🌙",
                 subtitle: "If I could reach it..."
+            },
+            {
+                question: "You make ordinary days special ✨",
+                subtitle: "Imagine Valentine’s then!"
             },
             {
                 question: "Last chance to reconsider! 💭",
@@ -552,202 +576,10 @@
                 question: "Come on, you know you want to! 💝",
                 subtitle: "Just click that big beautiful YES button!"
             }
-        ,
-            {
-                question: "You’re my favorite notification 💌",
-                subtitle: "The one I always hope to see!"
-            },
-            {
-                question: "If you say yes, I’ll do a happy dance 🕺",
-                subtitle: "And it won’t even be embarrassing… maybe."
-            },
-            {
-                question: "You + Me = Perfect plan 💑",
-                subtitle: "Simple math, right?"
-            },
-            {
-                question: "I saved the best day for you 🌷",
-                subtitle: "It’s called Valentine’s Day."
-            },
-            {
-                question: "You make ordinary days special ✨",
-                subtitle: "Imagine Valentine’s then!"
-            },
-            {
-                question: "I’d pick you in every universe 🌎",
-                subtitle: "Even the weird parallel ones."
-            },
-            {
-                question: "You’re my kind of magic 🪄",
-                subtitle: "No tricks, just feelings."
-            },
-            {
-                question: "Life’s better with you around 😊",
-                subtitle: "Especially on Valentine’s."
-            },
-            {
-                question: "You’re the plot twist I wanted 📖",
-                subtitle: "A good one, I promise."
-            },
-            {
-                question: "Let’s make a core memory 📸",
-                subtitle: "A really cute one."
-            },
-            {
-                question: "You’re my favorite person to smile with 😄",
-                subtitle: "And I want more of that."
-            },
-            {
-                question: "I’d share my dessert with you 🍰",
-                subtitle: "And that’s serious."
-            },
-            {
-                question: "You’re the highlight of my day 🌟",
-                subtitle: "Valentine’s can be too."
-            },
-            {
-                question: "You make my heart do flips 💓",
-                subtitle: "Gymnast-level flips."
-            },
-            {
-                question: "You’re my sunshine ☀️",
-                subtitle: "Even on cloudy days."
-            },
-            {
-                question: "Say yes and win unlimited compliments 🥰",
-                subtitle: "Valid for life."
-            },
-            {
-                question: "You’re my lucky charm 🍀",
-                subtitle: "Don’t break the streak!"
-            },
-            {
-                question: "You’re sweeter than chocolate 🍫",
-                subtitle: "And that’s saying a lot."
-            },
-            {
-                question: "You’re my favorite adventure buddy 🗺️",
-                subtitle: "Let’s start one."
-            },
-            {
-                question: "You make time fly ⏰",
-                subtitle: "Valentine’s will too."
-            },
-            {
-                question: "You’re my comfort person 🤍",
-                subtitle: "And my fun one."
-            },
-            {
-                question: "You’re a whole vibe ✨",
-                subtitle: "My favorite one."
-            },
-            {
-                question: "You’re my best ‘what if’ 🌸",
-                subtitle: "Let’s make it real."
-            },
-            {
-                question: "You make my day brighter 🌈",
-                subtitle: "Valentine’s included."
-            },
-            {
-                question: "You’re my favorite hello 👋",
-                subtitle: "And I don’t want goodbye."
-            },
-            {
-                question: "You’re my kind of wonderful 💫",
-                subtitle: "Rare and nice."
-            },
-            {
-                question: "You’re the reason I smile at my phone 📱",
-                subtitle: "Caught me there."
-            },
-            {
-                question: "You’re my dream date 💭",
-                subtitle: "No exaggeration."
-            },
-            {
-                question: "You make simple moments special 🌷",
-                subtitle: "Valentine’s too."
-            },
-            {
-                question: "You’re my favorite coincidence 🎯",
-                subtitle: "Glad it happened."
-            },
-            {
-                question: "You’re my happy place 🏡",
-                subtitle: "Rent free."
-            },
-            {
-                question: "You’re the best part of today 🥹",
-                subtitle: "And maybe tomorrow."
-            },
-            {
-                question: "You’re my favorite story 📚",
-                subtitle: "Let’s add a chapter."
-            },
-            {
-                question: "You’re my calm and my chaos 🌊",
-                subtitle: "Perfect balance."
-            },
-            {
-                question: "You’re my favorite surprise 🎁",
-                subtitle: "The good kind."
-            },
-            {
-                question: "You make hearts jealous 💘",
-                subtitle: "Yes, plural."
-            },
-            {
-                question: "You’re my best idea 💡",
-                subtitle: "Honestly."
-            },
-            {
-                question: "You’re my favorite reason to blush 😊",
-                subtitle: "Look at me."
-            },
-            {
-                question: "You’re my weekend plan 🌸",
-                subtitle: "And weekday too."
-            },
-            {
-                question: "You’re my favorite person to spoil 🎀",
-                subtitle: "Let me."
-            },
-            {
-                question: "You’re my spark ✨",
-                subtitle: "Don’t ghost me."
-            },
-            {
-                question: "You’re my favorite smile 😊",
-                subtitle: "Top tier."
-            },
-            {
-                question: "You’re my cozy thought ☕",
-                subtitle: "Warm and nice."
-            },
+            ,
             {
                 question: "You’re my favorite ‘yes’ waiting to happen 💝",
-                subtitle: "Just click it."
-            },
-            {
-                question: "You’re my reason to try harder 💪",
-                subtitle: "Worth it."
-            },
-            {
-                question: "You’re my favorite distraction 😌",
-                subtitle: "A good one."
-            },
-            {
-                question: "You’re my heart’s favorite person ❤️",
-                subtitle: "Confirmed."
-            },
-            {
-                question: "You’re my best maybe 🌷",
-                subtitle: "Turn it into yes."
-            },
-            {
-                question: "You’re my favorite feeling 💞",
-                subtitle: "Hard to explain."
+                subtitle: "Just click it. Damn it."
             },
             {
                 question: "You’re my Valentine already 💖",
