@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Be My Valentine? 💝</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 50%, #ff9a9e 100%);
+            position: relative;
+            min-height: 100vh;
+        }
+        
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .content {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .question-container {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s ease forwards;
+            animation-delay: 0.5s;
+            max-width: 90%;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        h1 {
+            font-size: clamp(1.8rem, 7vw, 4.5rem);
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ff0844, #ffb199, #ff0844);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease infinite;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .subtitle {
+            font-size: clamp(0.9rem, 2.5vw, 1.3rem);
+            color: rgba(139, 0, 0, 0.9);
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 1s;
+            font-weight: 500;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        
+        .buttons-container {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            opacity: 0;
+            animation: fadeIn 1s ease forwards;
+            animation-delay: 1.5s;
+            position: relative;
+            min-height: 120px;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        button {
+            padding: 1.5rem 3rem;
+            font-size: clamp(1rem, 2.5vw, 1.8rem);
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            overflow: hidden;
+            letter-spacing: 1px;
+            white-space: nowrap;
+            transition: transform 0.2s ease, box-shadow 0.3s ease;
+        }
+        
+        #yesBtn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            box-shadow: 0 10px 40px rgba(245, 87, 108, 0.6);
+            position: relative;
+            z-index: 100;
+        }
+        
+        #yesBtn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(245, 87, 108, 0.8);
+        }
+        
+        #yesBtn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        #yesBtn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        #noBtn {
+            background: linear-gradient(135deg, #a8a8a8 0%, #7a7a7a 100%);
+            color: white;
+            box-shadow: 0 10px 40px rgba(122, 122, 122, 0.4);
+            position: relative;
+            z-index: 200;
+        }
+        
+        .celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #ffdde1 100%);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .celebration.active {
+            display: flex;
+            animation: celebrationIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        @keyframes celebrationIn {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        .celebration h2 {
+            font-size: clamp(2.5rem, 10vw, 7rem);
+            margin-bottom: 2rem;
+            color: #ff0844;
+            animation: heartBeat 1.5s ease infinite;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+        }
+        
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            10%, 30% { transform: scale(1.1); }
+            20%, 40% { transform: scale(1); }
+        }
+        
+        .celebration p {
+            font-size: clamp(1.2rem, 4vw, 2.5rem);
+            color: rgba(139, 0, 0, 0.9);
+            max-width: 800px;
+            line-height: 1.5;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.5);
+        }
+        
+        .heart-particle {
+            position: fixed;
+            pointer-events: none;
+            font-size: 2rem;
+            z-index: 9999;
+        }
+        
+        @keyframes heartFloat {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .floating-heart {
+            position: fixed;
+            font-size: clamp(1.5rem, 4vw, 3rem);
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 2;
+            animation: gentleFloat 6s ease-in-out infinite;
+        }
+        
+        @keyframes gentleFloat {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg); 
+            }
+            50% { 
+                transform: translateY(-30px) rotate(10deg); 
+            }
+        }
+
+        
+        /* Special class for moved button - ALWAYS visible */
+        .no-moved {
+            position: fixed !important;
+            z-index: 99999 !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="content">
+        <div class="question-container">
+            <h1 id="mainQuestion">Will You Be My Valentine? 💖</h1>
+            <p class="subtitle" id="subtitle">Click yes and make me the happiest person alive!</p>
+            
+            <div class="buttons-container" id="buttonsContainer">
+                <button id="yesBtn">
+                    <span style="position: relative; z-index: 1;">Yes! 💕</span>
+                </button>
+                <button id="noBtn">No 💔</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="celebration" id="celebration">
+        <h2>YESSS! 💖✨🎉</h2>
+        <p>You just made me the happiest person alive!</p>
+        <p style="margin-top: 1rem; font-size: clamp(1rem, 3vw, 2rem);">Get ready for an amazing Valentine's Day! 🌹</p>
+    </div>
+    
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        // Floating hearts background
+        const backgroundHearts = [];
+        
+        class BackgroundHeart {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 30 + 20;
+                this.speedY = Math.random() * 0.5 + 0.2;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random() * 0.3 + 0.1;
+                this.color = ['#ff6b9d', '#ffc0cb', '#ff69b4', '#ff1493', '#c71585'][Math.floor(Math.random() * 5)];
+            }
+            
+            update() {
+                this.y -= this.speedY;
+                this.x += this.speedX;
+                
+                if (this.y + this.size < 0) {
+                    this.y = canvas.height + this.size;
+                    this.x = Math.random() * canvas.width;
+                }
+                
+                if (this.x < -this.size) this.x = canvas.width + this.size;
+                if (this.x > canvas.width + this.size) this.x = -this.size;
+            }
+            
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                
+                ctx.beginPath();
+                const x = this.x;
+                const y = this.y;
+                const size = this.size;
+                
+                // Draw heart shape
+                ctx.moveTo(x, y + size / 4);
+                ctx.bezierCurveTo(x, y, x - size / 2, y - size / 2, x, y - size / 8);
+                ctx.bezierCurveTo(x + size / 2, y - size / 2, x, y, x, y + size / 4);
+                ctx.fill();
+                
+                ctx.restore();
+            }
+        }
+        
+        // Initialize background hearts
+        for (let i = 0; i < 25; i++) {
+            backgroundHearts.push(new BackgroundHeart());
+        }
+        
+        // Animation loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            backgroundHearts.forEach(heart => {
+                heart.update();
+                heart.draw();
+            });
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        // 50 different prompts
+        const prompts = [
+            {
+                question: "Will You Be My Valentine? 💖",
+                subtitle: "Click yes and make me the happiest person alive!"
+            },
+            {
+                question: "I got you roses! 🌹",
+                subtitle: "A whole bouquet of your favorite color!"
+            },
+            {
+                question: "And chocolates too! 🍫",
+                subtitle: "The fancy kind with the gold wrapper!"
+            },
+            {
+                question: "Are you sure about that? 🥺",
+                subtitle: "I've been planning this for weeks..."
+            },
+            {
+                question: "Pretty please? 🙏",
+                subtitle: "I promise to be the best Valentine ever!"
+            },
+            {
+                question: "What if I sing to you? 🎵",
+                subtitle: "I've been practicing your favorite song!"
+            },
+            {
+                question: "I'll cook your favorite meal! 🍝",
+                subtitle: "I even watched YouTube tutorials!"
+            },
+            {
+                question: "Think of all the fun we'll have! 🎉",
+                subtitle: "Movies, dinner, dancing under the stars..."
+            },
+            {
+                question: "You're breaking my heart here... 💔",
+                subtitle: "Can you hear it cracking?"
+            },
+            {
+                question: "Just one more chance? 🥹",
+                subtitle: "I promise you won't regret it!"
+            },
+            {
+                question: "What about all our memories? 📸",
+                subtitle: "Let's make a million more together!"
+            },
+            {
+                question: "I'll watch whatever you want! 🎬",
+                subtitle: "Even those 3-hour rom-coms!"
+            },
+            {
+                question: "I made you a playlist! 🎧",
+                subtitle: "17 hours of love songs!"
+            },
+            {
+                question: "Pretty please with sugar on top? 🍰",
+                subtitle: "And sprinkles! And a cherry!"
+            },
+            {
+                question: "You know you want to say yes... 😏",
+                subtitle: "I can see that smile!"
+            },
+            {
+                question: "I'll let you pick everything! 🍽️",
+                subtitle: "Restaurant, movie, dessert - all yours!"
+            },
+            {
+                question: "Think about the cuddles! 🤗",
+                subtitle: "Warm, cozy, perfect cuddles..."
+            },
+            {
+                question: "I got you a giant teddy bear! 🧸",
+                subtitle: "It's literally bigger than me!"
+            },
+            {
+                question: "We can take so many cute pics! 📷",
+                subtitle: "Your Instagram will be fire!"
+            },
+            {
+                question: "I wrote you a poem! 📝",
+                subtitle: "It rhymes and everything!"
+            },
+            {
+                question: "We'll be the cutest couple ever! 💑",
+                subtitle: "Everyone will be so jealous!"
+            },
+            {
+                question: "Unlimited hugs included! 🫂",
+                subtitle: "Free hugs for life, no returns!"
+            },
+            {
+                question: "I promise to be super romantic! 💐",
+                subtitle: "Like, movie-level romantic!"
+            },
+            {
+                question: "I planned a surprise for you! 🎁",
+                subtitle: "It's amazing, trust me!"
+            },
+            {
+                question: "You're literally my favorite person! ⭐",
+                subtitle: "In the whole universe!"
+            },
+            {
+                question: "I'll make you laugh all day! 😂",
+                subtitle: "Even with my terrible jokes!"
+            },
+            {
+                question: "Romantic walks under the stars! 🌟",
+                subtitle: "Hand in hand, talking about everything..."
+            },
+            {
+                question: "I'll share my fries with you! 🍟",
+                subtitle: "And that's true love right there!"
+            },
+            {
+                question: "We could build a blanket fort! 🏰",
+                subtitle: "And have a movie marathon inside!"
+            },
+            {
+                question: "You can have all my hoodies! 👕",
+                subtitle: "Every. Single. One."
+            },
+            {
+                question: "Breakfast in bed? 🥞",
+                subtitle: "I'll try my absolute best not to burn it!"
+            },
+            {
+                question: "I'll dance with you anywhere! 💃",
+                subtitle: "Even though I'm absolutely terrible at it!"
+            },
+            {
+                question: "So many adventures waiting! 🗺️",
+                subtitle: "Let's explore the world together!"
+            },
+            {
+                question: "I'll carry all your shopping bags! 👜",
+                subtitle: "No matter how many stores we visit!"
+            },
+            {
+                question: "We can stargaze together! ✨",
+                subtitle: "I'll make up constellation stories for you!"
+            },
+            {
+                question: "I'll be your personal photographer! 📸",
+                subtitle: "Unlimited photoshoots, perfect angles guaranteed!"
+            },
+            {
+                question: "Think of all the inside jokes! 🤫",
+                subtitle: "We'll have our own secret language!"
+            },
+            {
+                question: "I set phone reminders for everything! 📅",
+                subtitle: "I'll never forget important dates!"
+            },
+            {
+                question: "You deserve the absolute best! 👑",
+                subtitle: "And I'll give you exactly that!"
+            },
+            {
+                question: "I'll serenade you in the rain! 🎤",
+                subtitle: "Super romantic, right?"
+            },
+            {
+                question: "Sunset walks on the beach! 🌅",
+                subtitle: "Or the park, or anywhere really!"
+            },
+            {
+                question: "I'm learning to bake for you! 🧁",
+                subtitle: "Only two kitchen fires so far!"
+            },
+            {
+                question: "We'll make the best memories! 🌈",
+                subtitle: "Stories to tell our grandkids!"
+            },
+            {
+                question: "I'll be your biggest cheerleader! 📣",
+                subtitle: "Supporting you in everything you do!"
+            },
+            {
+                question: "Matching couple outfits? 👔",
+                subtitle: "We'll be adorably coordinated!"
+            },
+            {
+                question: "I'd give you the moon! 🌙",
+                subtitle: "If I could reach it..."
+            },
+            {
+                question: "Last chance to reconsider! 💭",
+                subtitle: "Think about how amazing it'll be!"
+            },
+            {
+                question: "The answer is obviously yes! 😊",
+                subtitle: "Let's stop playing around!"
+            },
+            {
+                question: "YES or YES? 😤",
+                subtitle: "Those are literally your only options!"
+            },
+            {
+                question: "Come on, you know you want to! 💝",
+                subtitle: "Just click that big beautiful YES button!"
+            }
+        ,
+            {
+                question: "You’re my favorite notification 💌",
+                subtitle: "The one I always hope to see!"
+            },
+            {
+                question: "If you say yes, I’ll do a happy dance 🕺",
+                subtitle: "And it won’t even be embarrassing… maybe."
+            },
+            {
+                question: "You + Me = Perfect plan 💑",
+                subtitle: "Simple math, right?"
+            },
+            {
+                question: "I saved the best day for you 🌷",
+                subtitle: "It’s called Valentine’s Day."
+            },
+            {
+                question: "You make ordinary days special ✨",
+                subtitle: "Imagine Valentine’s then!"
+            },
+            {
+                question: "I’d pick you in every universe 🌎",
+                subtitle: "Even the weird parallel ones."
+            },
+            {
+                question: "You’re my kind of magic 🪄",
+                subtitle: "No tricks, just feelings."
+            },
+            {
+                question: "Life’s better with you around 😊",
+                subtitle: "Especially on Valentine’s."
+            },
+            {
+                question: "You’re the plot twist I wanted 📖",
+                subtitle: "A good one, I promise."
+            },
+            {
+                question: "Let’s make a core memory 📸",
+                subtitle: "A really cute one."
+            },
+            {
+                question: "You’re my favorite person to smile with 😄",
+                subtitle: "And I want more of that."
+            },
+            {
+                question: "I’d share my dessert with you 🍰",
+                subtitle: "And that’s serious."
+            },
+            {
+                question: "You’re the highlight of my day 🌟",
+                subtitle: "Valentine’s can be too."
+            },
+            {
+                question: "You make my heart do flips 💓",
+                subtitle: "Gymnast-level flips."
+            },
+            {
+                question: "You’re my sunshine ☀️",
+                subtitle: "Even on cloudy days."
+            },
+            {
+                question: "Say yes and win unlimited compliments 🥰",
+                subtitle: "Valid for life."
+            },
+            {
+                question: "You’re my lucky charm 🍀",
+                subtitle: "Don’t break the streak!"
+            },
+            {
+                question: "You’re sweeter than chocolate 🍫",
+                subtitle: "And that’s saying a lot."
+            },
+            {
+                question: "You’re my favorite adventure buddy 🗺️",
+                subtitle: "Let’s start one."
+            },
+            {
+                question: "You make time fly ⏰",
+                subtitle: "Valentine’s will too."
+            },
+            {
+                question: "You’re my comfort person 🤍",
+                subtitle: "And my fun one."
+            },
+            {
+                question: "You’re a whole vibe ✨",
+                subtitle: "My favorite one."
+            },
+            {
+                question: "You’re my best ‘what if’ 🌸",
+                subtitle: "Let’s make it real."
+            },
+            {
+                question: "You make my day brighter 🌈",
+                subtitle: "Valentine’s included."
+            },
+            {
+                question: "You’re my favorite hello 👋",
+                subtitle: "And I don’t want goodbye."
+            },
+            {
+                question: "You’re my kind of wonderful 💫",
+                subtitle: "Rare and nice."
+            },
+            {
+                question: "You’re the reason I smile at my phone 📱",
+                subtitle: "Caught me there."
+            },
+            {
+                question: "You’re my dream date 💭",
+                subtitle: "No exaggeration."
+            },
+            {
+                question: "You make simple moments special 🌷",
+                subtitle: "Valentine’s too."
+            },
+            {
+                question: "You’re my favorite coincidence 🎯",
+                subtitle: "Glad it happened."
+            },
+            {
+                question: "You’re my happy place 🏡",
+                subtitle: "Rent free."
+            },
+            {
+                question: "You’re the best part of today 🥹",
+                subtitle: "And maybe tomorrow."
+            },
+            {
+                question: "You’re my favorite story 📚",
+                subtitle: "Let’s add a chapter."
+            },
+            {
+                question: "You’re my calm and my chaos 🌊",
+                subtitle: "Perfect balance."
+            },
+            {
+                question: "You’re my favorite surprise 🎁",
+                subtitle: "The good kind."
+            },
+            {
+                question: "You make hearts jealous 💘",
+                subtitle: "Yes, plural."
+            },
+            {
+                question: "You’re my best idea 💡",
+                subtitle: "Honestly."
+            },
+            {
+                question: "You’re my favorite reason to blush 😊",
+                subtitle: "Look at me."
+            },
+            {
+                question: "You’re my weekend plan 🌸",
+                subtitle: "And weekday too."
+            },
+            {
+                question: "You’re my favorite person to spoil 🎀",
+                subtitle: "Let me."
+            },
+            {
+                question: "You’re my spark ✨",
+                subtitle: "Don’t ghost me."
+            },
+            {
+                question: "You’re my favorite smile 😊",
+                subtitle: "Top tier."
+            },
+            {
+                question: "You’re my cozy thought ☕",
+                subtitle: "Warm and nice."
+            },
+            {
+                question: "You’re my favorite ‘yes’ waiting to happen 💝",
+                subtitle: "Just click it."
+            },
+            {
+                question: "You’re my reason to try harder 💪",
+                subtitle: "Worth it."
+            },
+            {
+                question: "You’re my favorite distraction 😌",
+                subtitle: "A good one."
+            },
+            {
+                question: "You’re my heart’s favorite person ❤️",
+                subtitle: "Confirmed."
+            },
+            {
+                question: "You’re my best maybe 🌷",
+                subtitle: "Turn it into yes."
+            },
+            {
+                question: "You’re my favorite feeling 💞",
+                subtitle: "Hard to explain."
+            },
+            {
+                question: "You’re my Valentine already 💖",
+                subtitle: "Just make it official."
+            }];
+        
+        // Button logic
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const mainQuestion = document.getElementById('mainQuestion');
+        const subtitle = document.getElementById('subtitle');
+        const celebration = document.getElementById('celebration');
+                
+        let currentPromptIndex = 0;
+        let positionIndex = 0;
+        
+        // SUPER SIMPLE: Just 4 corner positions with HUGE padding
+        const CORNERS = ['top-left', 'top-right', 'bottom-left', 'bottom-right'];
+        
+        function moveNoButton() {
+            const corner = CORNERS[positionIndex % CORNERS.length];
+            positionIndex++;
+
+            const PADDING = 40; // safe padding from edges
+
+            // Keep it always visible + above everything
+            noBtn.classList.add('no-moved');
+
+            // Prefer clientWidth/Height (stable at 100% zoom, includes scrollbar effects)
+            const vw = document.documentElement.clientWidth || window.innerWidth;
+            const vh = document.documentElement.clientHeight || window.innerHeight;
+
+            // Measure actual size (fallbacks avoid NaN/0 issues)
+            const btnW = noBtn.offsetWidth || noBtn.getBoundingClientRect().width || 200;
+            const btnH = noBtn.offsetHeight || noBtn.getBoundingClientRect().height || 80;
+
+            let x, y;
+            const maxX = Math.max(PADDING, vw - btnW - PADDING);
+            const maxY = Math.max(PADDING, vh - btnH - PADDING);
+
+            switch (corner) {
+                case 'top-left':
+                    x = PADDING;
+                    y = PADDING;
+                    break;
+                case 'top-right':
+                    x = maxX;
+                    y = PADDING;
+                    break;
+                case 'bottom-left':
+                    x = PADDING;
+                    y = maxY;
+                    break;
+                case 'bottom-right':
+                    x = maxX;
+                    y = maxY;
+                    break;
+            }
+
+            // Clamp
+            x = Math.max(PADDING, Math.min(x, maxX));
+            y = Math.max(PADDING, Math.min(y, maxY));
+
+            // Apply
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+            noBtn.style.transform = 'none';
+
+            // Final safety: if still off-screen (rare zoom/layout cases), clamp again using rect
+            const r = noBtn.getBoundingClientRect();
+            let dx = 0, dy = 0;
+            if (r.right > vw - PADDING) dx = (vw - PADDING) - r.right;
+            if (r.left < PADDING) dx = PADDING - r.left;
+            if (r.bottom > vh - PADDING) dy = (vh - PADDING) - r.bottom;
+            if (r.top < PADDING) dy = PADDING - r.top;
+
+            if (dx || dy) {
+                const curL = parseFloat(noBtn.style.left) || x;
+                const curT = parseFloat(noBtn.style.top) || y;
+                noBtn.style.left = (curL + dx) + 'px';
+                noBtn.style.top  = (curT + dy) + 'px';
+            }
+        }
+
+        function handleNoInteraction() {
+            // Move to next prompt (loop back after 100)
+            currentPromptIndex = (currentPromptIndex + 1) % prompts.length;
+            
+            mainQuestion.textContent = prompts[currentPromptIndex].question;
+            subtitle.textContent = prompts[currentPromptIndex].subtitle;
+            
+            // Move no button
+            moveNoButton();
+            
+            // Add shake effect
+            mainQuestion.style.animation = 'none';
+            setTimeout(() => {
+                mainQuestion.style.animation = 'heartBeat 0.5s ease';
+            }, 10);
+            
+            // Create heart particles
+            for (let i = 0; i < 5; i++) {
+                backgroundHearts.push(new BackgroundHeart());
+                if (backgroundHearts.length > 50) {
+                    backgroundHearts.shift();
+                }
+            }
+        }
+        
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleNoInteraction();
+        });
+        
+        yesBtn.addEventListener('click', () => {
+            celebration.classList.add('active');
+            
+            // Create heart explosion
+            setInterval(() => {
+                createFloatingHeart();
+            }, 150);
+            
+            // Add even more background hearts
+            for (let i = 0; i < 30; i++) {
+                backgroundHearts.push(new BackgroundHeart());
+            }
+        });
+        
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart-particle';
+            heart.textContent = ['❤️', '💕', '💖', '💗', '💓', '💝', '✨', '🌹'][Math.floor(Math.random() * 8)];
+            heart.style.left = Math.random() * window.innerWidth + 'px';
+            heart.style.top = window.innerHeight + 'px';
+            heart.style.animation = `heartFloat ${Math.random() * 3 + 2}s linear`;
+            document.body.appendChild(heart);
+            
+            setTimeout(() => heart.remove(), 5000);
+        }
+        
+        // Add some ambient floating hearts on load
+        function createAmbientHearts() {
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.textContent = ['💖', '💕', '✨', '🌸'][Math.floor(Math.random() * 4)];
+                heart.style.left = Math.random() * window.innerWidth + 'px';
+                heart.style.top = Math.random() * window.innerHeight + 'px';
+                heart.style.animationDelay = Math.random() * 3 + 's';
+                document.body.appendChild(heart);
+            }
+        }
+        
+        createAmbientHearts();
+        
+        // Resize/zoom handler
+        function clampNoButtonIfMoved() {
+            if (!noBtn.classList.contains('no-moved')) return;
+
+            // Reposition to the current corner again (without changing the sequence)
+            const old = positionIndex;
+            positionIndex = Math.max(0, positionIndex - 1);
+            moveNoButton();
+            positionIndex = old;
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            clampNoButtonIfMoved();
+        });
+
+        // Some browsers change visualViewport on zoom even without firing window resize
+        if (window.visualViewport) {
+            window.visualViewport.addEventListener('resize', clampNoButtonIfMoved);
+            window.visualViewport.addEventListener('scroll', clampNoButtonIfMoved);
+        }
+</script>
+</body>
+</html>
